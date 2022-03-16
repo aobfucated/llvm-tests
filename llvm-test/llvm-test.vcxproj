@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{0c188c75-d1a6-469d-acf2-784849af38a5}</ProjectGuid>
+    <RootNamespace>llvmtest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\vs-code\vmp_devirt\release\vmdevirt\dependencies\llvm\llvm\include;D:\vs-code\vmp_devirt\release\vmdevirt\dependencies\llvm\llvm\lib\Target\X86;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\lib\Target\X86;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMCore.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMCodeGen.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMSupport.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMLinker.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMX86CodeGen.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMX86AsmParser.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMX86Desc.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMX86Disassembler.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMX86Info.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMAsmParser.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMPasses.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMAsmPrinter.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMGlobalISel.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMSelectionDAG.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMCFGuard.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMMCDisassembler.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMTarget.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMCoroutines.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMipo.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMBitWriter.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMInstrumentation.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMFrontendOpenMP.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMScalarOpts.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMAggressiveInstCombine.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMIRReader.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMInstCombine.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMObjCARCOpts.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMVectorize.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMTransformUtils.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMAnalysis.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMProfileData.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMSymbolize.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMDebugInfoPDB.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMDebugInfoMSF.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMDebugInfoDWARF.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMObject.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMBitReader.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMRemarks.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMBitstreamReader.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMMCParser.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMMC.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMDebugInfoCodeView.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMTextAPI.lib;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMBinaryFormat.lib;psapi.lib;shell32.lib;ole32.lib;uuid.lib;advapi32.lib;delayimp.lib;-delayload:shell32.dll;-delayload:ole32.dll;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\Debug\lib\LLVMDemangle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\vs-code\vmp_devirt\release\vmdevirt\dependencies\llvm\llvm\include;D:\vs-code\vmp_devirt\release\vmdevirt\dependencies\llvm\llvm\lib\Target\X86;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\lib\Target\X86;D:\vs-code\vmp_devirt\release\vmdevirt\build\dependencies\llvm\llvm\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="llvm-test.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
