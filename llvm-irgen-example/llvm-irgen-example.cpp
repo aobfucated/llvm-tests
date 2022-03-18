@@ -20,6 +20,7 @@
 #include "llvm/MC/TargetRegistry.h" //llvm::
 #include "llvm/Target/TargetOptions.h"
 #include "llvm/Target/TargetMachine.h"
+#include "llvm/Object/ObjectFile.h"
 
 #include <memory>
 #include <iostream>
@@ -105,7 +106,7 @@ int main()
     std::string target_triple = llvm::sys::getDefaultTargetTriple();
     std::cout << "[-]default target is " << target_triple << std::endl;
 
-    std::cout << "[-]current target is " << llvm_module->getTargetTriple();
+    std::cout << "[-]current target is " << llvm_module->getTargetTriple() << std::endl;
 
     //编译IR到本地x86代码
     //https://stackoverflow.com/questions/34822212/generate-machine-code-directly-via-llvm-api
@@ -115,6 +116,11 @@ int main()
     llvm_module->setTargetTriple(target_triple); //set x86 
     llvm::legacy::PassManager pass;
 
+    llvm::Triple triple(target_triple);
+    std::cout << "[-]default object type = " << triple.getObjectFormat() << std::endl;
+    triple.setObjectFormat(Triple::COFF);
+
+    
     //
     //初始化一些东西,不然的话下面的一些api类成员都是nullptr,要崩溃
     //
@@ -134,12 +140,12 @@ int main()
 
     llvm::SmallVector< char, 128 > buff;
     llvm::raw_svector_ostream dest(buff);
-    target_machine->addPassesToEmitFile(pass, dest, nullptr, llvm::CGFT_AssemblyFile);
+    target_machine->addPassesToEmitFile(pass, dest, nullptr, llvm::CGFT_ObjectFile);
     auto result = pass.run(*llvm_module);
     
     std::vector<uint8_t> obj = std::vector<uint8_t>(buff.begin(), buff.end());
 
-    std::ofstream o("main.o");
+    std::ofstream o("main.o",std::ios::binary);
     std::ostream_iterator<uint8_t> oi(o);
     std::copy(obj.begin(), obj.end(), oi);
     

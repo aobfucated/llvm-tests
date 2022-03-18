@@ -12,3 +12,30 @@ clang++: error: linker command failed with exit code 1107 (use -v to see invocat
 ```
 
 
+PS C:\Users\asdf\source\repos\llvm-test\llvm-irgen-example> llvm-objdump.exe -a main.o
+
+main.o: file format coff-x86-64
+
+PS C:\Users\asdf\source\repos\llvm-test\llvm-irgen-example> clang++ main.o
+
+```
+; Function Attrs: mustprogress noinline norecurse nounwind optnone uwtable
+define dso_local i32 @main() #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %3 = alloca i32, align 4
+  store i32 0, i32* %1, align 4
+  store i32 1, i32* %2, align 4
+  store i32 2, i32* %3, align 4
+  %4 = load i32, i32* %2, align 4
+  %5 = load i32, i32* %3, align 4
+  %6 = add nsw i32 %4, %5
+  ret i32 %6
+}```
+
+```
+.text:0000000140001000 main            proc near               ; CODE XREF: __scrt_common_main_seh(void)+107¡ýp
+.text:0000000140001000                 mov     eax, 3
+.text:0000000140001005                 retn
+.text:0000000140001005 main            endp
+```
