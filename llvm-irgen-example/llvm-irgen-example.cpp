@@ -70,8 +70,8 @@ int main()
     builder.CreateStore(ConstantInt::get(Type::getInt32Ty(context), APInt(32, 1)), t_2);
     builder.CreateStore(ConstantInt::get(Type::getInt32Ty(context), APInt(32, 2)), t_3);
     
-    Value* t_4 = builder.CreateLoad(Type::getInt32Ty(context), t_2);
-    Value* t_5 = builder.CreateLoad(Type::getInt32Ty(context), t_3);
+    Value* t_4 = builder.CreateLoad(Type::getInt32Ty(context), t_2,"abc");
+    Value* t_5 = builder.CreateLoad(Type::getInt32Ty(context), t_3,"def");
 
     Value* ret = builder.CreateAdd(t_4, t_5, "", 0, 1);
 
