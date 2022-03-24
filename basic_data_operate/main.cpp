@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
 /*
 
 llvm基本数据类型
@@ -61,6 +63,16 @@ int main(int argc, char** argv) {
     //int8*
     llvm::Value* t3 = builder.CreateAlloca(llvm::Type::getInt8PtrTy(context), 0, "t3");
 
+//t1 是一个Int32的类型,但是这里将Int64的值0赋给他，就会抛异常
+    //builder.CreateStore(llvm::ConstantInt::get(llvm::Type::getInt64Ty(context), llvm::APInt(64, 0)), t1);
+
+//能不能将Int64转化为Int32
+//上面调用CreateAlloca分配的其实是一个i32*(指针),转的话只能将值类型转换
+    //builder.CreateIntCast(t1, llvm::Type::getInt64Ty(context),false);
+    //builder.CreateStore(llvm::ConstantInt::get(llvm::Type::getInt64Ty(context), llvm::APInt(64, 0)), t1);
+    
+    //printf("type:");
+    //t1->getType()->print(llvm::outs(), true, true);
     
     llvm::Value* t4 = builder.CreateStore(t1, t2);
 

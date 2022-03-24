@@ -14,6 +14,7 @@
 #include <llvm/Transforms/Scalar/GVN.h> 
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/Passes/PassBuilder.h>
+#include <llvm/IR/InlineAsm.h>
 
 #include "llvm/Support/Host.h"
 #include "llvm/MC/TargetRegistry.h" 
@@ -36,10 +37,12 @@ namespace llvm
 
 using namespace llvm;
 
+std::vector<AllocaInst*> virtual_registers;
+
 int main()
 {
     LLVMContext context;
-    IRBuilder<> builder(context);
+    IRBuilder<> builder(context);//通过builder.getContext()可以获得这个context
 
     std::unique_ptr<Module> llvm_module(new Module("vmp2-example.cpp", context));
 
@@ -52,18 +55,46 @@ int main()
     auto bb = BasicBlock::Create(context, "vmp2block", main);
     builder.SetInsertPoint(bb);
 
-    //vmp2的context 0x140个字节
-    Type* vreg_array_type = ArrayType::get(Type::getInt64Ty(context), 0x28);
-    Value* vreg = builder.CreateAlloca(vreg_array_type,0,"vreg");
+    //vmp2的context 0x140个字节 以数组的形式创建0x28个uint64  sub rsp,0x140
+    //Type* vreg_array_type = ArrayType::get(Type::getInt64Ty(context), 0x28);
+    //Value* vreg = builder.CreateAlloca(vreg_array_type,0,"vreg");
     
+    //sub rsp,0x140
+    for (auto idx = 0u; idx < 0x28; ++idx) //将虚拟寄存器以vector的形式存放在栈上
+        virtual_registers.push_back(builder.CreateAlloca(llvm::IntegerType::get(context,64), nullptr,(std::string("vreg") + std::to_string(idx)).c_str()));
+
+
     //学习llvm的GetElementPtr指令 https://www.codeleading.com/article/70285814012/   
     
-    //sregq 0x58 0   mov verg,0
-    Value* vreg_58 = builder.CreateStore(ConstantInt::get(Type::getInt64Ty(context), APInt(64, 0)), builder.CreateConstGEP2_64(vreg_array_type, vreg, 0,0x58/8));
+//sregq 0x58 0   mov verg,0 -> mov     qword ptr [rsp + 0x58], 0x0
+    
+    //以数组的形式存储
+    //Value* vreg_58 = builder.CreateStore(ConstantInt::get(Type::getInt64Ty(context), APInt(64, 0)), builder.CreateConstGEP2_64(vreg_array_type, vreg, 0,0x58/8));
+
+    //存储到vector里 
+    //这里一开始出了个问题,i64(0) i32(0) i16(0) i8(0),假如一开始分配的是i64的地址,那就只能store i64
+    builder.CreateStore(ConstantInt::get(Type::getInt64Ty(context),APInt(64,0)), virtual_registers[0x58 / 8]);
+
+    
+
+
+
+    //PointerType virtual_registers[0]->getType();
+
+    //builder.CreateAlloca(PointerType::get(builder.getInt8Ty(), 0), 0, "vsp");
+    //builder.CreateAlloca(PointerType::get(builder.getInt16Ty(), 0), 0, "vsp");
+
+    std::string asm_str;
+    //这里汇编失败的话,下面complier to obj的时候就会失败
+    asm_str.assign("push rax;push rcx;pushfq;mov rbp,rsp;sub rsp,140h;mov rdi,rsp");
+    llvm::InlineAsm* inlineAsm = llvm::InlineAsm::get(llvm::FunctionType::get(Type::getVoidTy(context), false), asm_str, "", false, false, llvm::InlineAsm::AD_Intel);
+
+    //当前位置内嵌汇编 相当于_asm()
+    builder.CreateCall(inlineAsm);
 
     //LCONSTDWSXQ 0x5c00d5f5
     //builder.CreateStore(ConstantInt::get(Type::getInt32Ty(context), APInt(32, 0x5c00d5f5)), vrsp);
-
+    
 
 
     builder.CreateRetVoid();
@@ -77,8 +108,8 @@ int main()
 
     //some optimizes
 
-    fpm->add(llvm::createPromoteMemoryToRegisterPass());
-    fpm->run(*main);
+    //fpm->add(llvm::createPromoteMemoryToRegisterPass());
+    //fpm->run(*main);
 
     std::cout << "[-]optimize after: \n\n\n";
     llvm_module->print(outs(), nullptr);
@@ -112,9 +143,9 @@ int main()
 
     std::vector<uint8_t> obj = std::vector<uint8_t>(buff.begin(), buff.end());
 
-    //std::ofstream o("main.o", std::ios::binary);
-    //std::ostream_iterator<uint8_t> oi(o);
-    //std::copy(obj.begin(), obj.end(), oi);
+    std::ofstream o("main.o", std::ios::binary);
+    std::ostream_iterator<uint8_t> oi(o);
+    std::copy(obj.begin(), obj.end(), oi);
 
 
     return 0;

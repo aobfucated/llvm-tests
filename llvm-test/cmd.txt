@@ -1,0 +1,1 @@
+E:\LLVM\bin\llvm-objdump.exe -d --x86-asm-syntax=intel D:\vs-code\llvm-test\llvm-test\main.o
