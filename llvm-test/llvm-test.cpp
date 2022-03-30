@@ -47,8 +47,8 @@ int main()
 
     std::unique_ptr<Module> llvm_module(new Module("vmp2-example.cpp", context));
 
-    //void(void)
-    auto main = Function::Create(FunctionType::get(Type::getVoidTy(context), {}, false),
+    //void(int64)
+    auto main = Function::Create(FunctionType::get(Type::getVoidTy(context), {Type::getInt64Ty(context)}, false),
         GlobalValue::LinkageTypes::ExternalLinkage,
         "main", *llvm_module);
 
@@ -130,15 +130,53 @@ int main()
 
     std::string asm_str;
     //这里汇编失败的话,下面complier to obj的时候就会失败
-    asm_str.assign("push rax;push rcx;pushfq;mov rbp,rsp;sub rsp,140h;mov rdi,rsp");
+    asm_str.assign("push rax;push rcx;pushfq;mov rbp,rsp;sub rsp,140h;mov rdi,rsp;mov rcx,rsp;");
     llvm::InlineAsm* inlineAsm = llvm::InlineAsm::get(llvm::FunctionType::get(Type::getVoidTy(context), false), asm_str, "", false, false, llvm::InlineAsm::AD_Intel);
 
     //当前位置内嵌汇编 相当于_asm()
     builder.CreateCall(inlineAsm);
+    
 
     //LCONSTDWSXQ 0x5c00d5f5
     //builder.CreateStore(ConstantInt::get(Type::getInt32Ty(context), APInt(32, 0x5c00d5f5)), vrsp);
     
+    //bool llvm::Function::isIntrinsic()	const
+    FunctionCallee read_register = llvm_module->getOrInsertFunction("read_register", FunctionType::get(IntegerType::get(context, 64), IntegerType::get(context, 64)));
+    if (!read_register)
+    {
+        throw std::runtime_error("no function named returnaddress");
+    }
+
+    //CallInst* stack_ptr = builder.CreateCall(read_register, ConstantInt::get(Type::getInt64Ty(context), APInt(64, 0)));
+    //stack_ptr->addFnAttr(Attribute::AlwaysInline);
+
+    
+    auto rcx = main->getArg(0);
+
+    //sub rcx,x? 这部分倒是可以用inlineasm实现，但是inlineasm会影响优化
+    auto newrcx = builder.CreateSub(rcx, ConstantInt::get(Type::getInt64Ty(context), APInt(64, 3)));
+
+
+    auto aptr = builder.CreateAlloca(PointerType::getInt64Ty(context));
+    builder.CreateStore(newrcx, aptr);
+
+    outs() << "\n";
+    newrcx->getType()->print(outs());
+    aptr->getType()->print(outs());
+
+    //rcx->getType()->print(outs()); //rcx == i64
+    //auto afteradd = builder.CreateAdd(newrcx, ConstantInt::get(Type::getInt64Ty(context), APInt(64, 2)));
+    //auto rcx_ptr = builder.CreateIntToPtr(afteradd, PointerType::getInt8PtrTy(context));
+
+    //rcx_ptr->getType()->getScalarType()->print(outs());  //i8*
+    //cast<PointerType>(rcx_ptr);
+    //builder.CreateGEP(Type::getInt8Ty(context), rcx_ptr,0);
+    //gep = builder.CreateConstGEP2_64(byte_array_type, rcx_ptr, 0, 0);//12开始8字节
+    //builder.CreateStore(ConstantInt::get(Type::getInt8Ty(context), APInt(8, 0)), rcx_ptr); //mov [rcx+x],0
+
+
+
+
 
 
     builder.CreateRetVoid();
